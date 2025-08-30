@@ -908,7 +908,7 @@ TSection:NewToggle("FARM ZONE #1 [Edificio en construcción]", "", function(stat
         getgenv().loopToCoordinates = false -- Detener el bucle
     end
 end)
-ERSection:NewButton("Dispara tus FPS", "By TioHelmoso ", function()
+ERSection:NewButton("Mas-FPS", function()
     local decalsyeeted = true -- Leaving this on makes games look shitty but the fps goes up by at least 20.
     local g = game
     local w = g.Workspace
@@ -1005,8 +1005,7 @@ function antilag()
         if v:IsA("ForceField") or v:IsA("Sparkles") or v:IsA("Smoke") or v:IsA("Fire") then
             v:Destroy()
         end
-    end)
-end;
+    end);
 MSection:NewButton("Ground Crack Lag", "", function(state)
 	for i = 1, 1000 do
 		game:GetService("ReplicatedStorage").Events.GroundCrack:FireServer();
@@ -1415,4 +1414,5 @@ KSection:NewKeybind("Toggle UI", "", Enum.KeyCode.RightShift, function()
 end)
  local OtherTab = Window:NewTab("Others")
 local OtherSection = OtherTab:NewSection("prox-act-2-")
+
 
