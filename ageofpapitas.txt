@@ -907,41 +907,56 @@ TSection:NewToggle("FARM ZONE #1 [Edificio en construcción]", "", function(stat
         -- Si el botón de toggle está desactivado
         getgenv().loopToCoordinates = false -- Detener el bucle
     end
-end);
-MSection:NewButton("AntiLag", "", function()
-	local Terrain = workspace:FindFirstChildOfClass("Terrain");
-	Terrain.WaterWaveSize = 0;
-	Terrain.WaterWaveSpeed = 0;
-	Terrain.WaterReflectance = 0;
-	Terrain.WaterTransparency = 0;
-	settings().Rendering.QualityLevel = 1;
-	for i, v in pairs(game:GetDescendants()) do
-		if (v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("MeshPart") or v:IsA("CornerWedgePart") or v:IsA("TrussPart")) then
-			v.Material = "Plastic";
-			v.Reflectance = 0;
-		elseif v:IsA("Decal") then
-			v.Transparency = 1;
-		elseif (v:IsA("ParticleEmitter") or v:IsA("Trail")) then
-			v.Lifetime = NumberRange.new(0);
-		elseif v:IsA("Explosion") then
-			v.BlastPressure = 1;
-			v.BlastRadius = 1;
-		end
-	end
-	workspace.DescendantAdded:Connect(function(child)
-		coroutine.wrap(function()
-			if child:IsA("ForceField") then
-				RunService.Heartbeat:Wait();
-				child:Destroy();
-			elseif child:IsA("Sparkles") then
-				RunService.Heartbeat:Wait();
-				child:Destroy();
-			elseif (child:IsA("Smoke") or child:IsA("Fire")) then
-				RunService.Heartbeat:Wait();
-				child:Destroy();
-			end
-		end)();
-	end);
+end)
+function antilag()
+    local Lighting = game:GetService("Lighting")
+    local Terrain = game:GetService("Workspace"):FindFirstChildOfClass("Terrain")
+
+    -- Ajustes en el terreno
+    if Terrain then
+        Terrain.WaterWaveSize = 0
+        Terrain.WaterWaveSpeed = 0
+        Terrain.WaterReflectance = 0
+        Terrain.WaterTransparency = 0
+    end
+
+    -- Ajustes en la iluminación
+    Lighting.GlobalShadows = false
+    Lighting.FogEnd = 9e9
+    Lighting.Brightness = 0
+
+    -- Reducir calidad de renderizado
+    settings().Rendering.QualityLevel = Enum.QualityLevel.Level01
+
+    -- Optimización de las partes del juego
+    for _, v in pairs(workspace:GetDescendants()) do
+        if v:IsA("BasePart") and not v:IsA("MeshPart") then
+            v.Material = Enum.Material.Plastic
+            v.Reflectance = 0
+        elseif v:IsA("Decal") then
+            v.Transparency = 1
+        elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+            v.Lifetime = NumberRange.new(0)
+        elseif v:IsA("Explosion") then
+            v.BlastPressure = 0
+            v.BlastRadius = 0
+        end
+    end
+
+    -- Desactivar efectos visuales
+    for _, v in pairs(Lighting:GetChildren()) do
+        if v:IsA("BlurEffect") or v:IsA("SunRaysEffect") or v:IsA("ColorCorrectionEffect") or 
+           v:IsA("BloomEffect") or v:IsA("DepthOfFieldEffect") then
+            v.Enabled = false
+        end
+    end
+
+    -- Eliminar efectos visuales en tiempo real
+    workspace.DescendantAdded:Connect(function(v)
+        if v:IsA("ForceField") or v:IsA("Sparkles") or v:IsA("Smoke") or v:IsA("Fire") then
+            v:Destroy()
+        end
+    end)
 end);
 MSection:NewButton("Ground Crack Lag", "", function(state)
 	for i = 1, 1000 do
@@ -1350,32 +1365,4 @@ KSection:NewKeybind("Toggle UI", "", Enum.KeyCode.RightShift, function()
 	Library:ToggleUI();
 end)
 local OtherTab = Window:NewTab("Others")
-local OtherSection = OtherTab:NewSection("Mas opciones:D")
-local function createAntiAFKToggle(section)
-    local state = false
-    local toggleObj
-
-    local function createToggle()
-        if toggleObj then
-            -- Si ya existe, remover o ocultar (depende de la librería, algunas no permiten eliminar)
-            -- Aquí asumo que no se puede eliminar, así que solo ignoramos.
-        end
-
-        local circle = state and "●" or "○"
-        toggleObj = section:NewToggle(circle .. " Anti-AFK", "Evita ser desconectado por inactividad", function(val)
-            state = val
-            -- Actualiza el toggle (no se puede cambiar texto directo, así que recreamos)
-            -- En la mayoría de libs no se puede recrear fácil, así que mejor actualizar etiqueta (solución recomendada)
-        end)
-    end
-
-    createToggle()
-
-    return {
-        getState = function() return state end,
-        setState = function(val)
-            state = val
-            createToggle()
-        end
-    }
-end)
+local OtherSection = OtherTab:NewSection("Mas opciones :D")
