@@ -866,6 +866,47 @@ MSection:NewButton("Destroy Safezone & Parts", "", function()
 	game:GetService("Workspace").SafeZones.Barrier:Destroy();
 	game:GetService("Workspace").SafeZones.Barrier:Destroy();
 	game:GetService("Workspace").SafeZones.Barrier:Destroy();
+end
+TSection:NewLabel("FARM PLACE")
+TSection:NewToggle("FARM ZONE #1 [Edificio en construcción]", "", function(state)
+    if state then
+        -- Si el botón de toggle está activado
+        getgenv().loopToCoordinates = true  -- Bandera para controlar el bucle
+
+        local function teleportLoop()
+            -- Bucle para teletransportarse continuamente
+            while getgenv().loopToCoordinates do
+                local success, err = pcall(function()
+                    local player = game.Players.LocalPlayer  -- Referencia del jugador local
+                    local character = player.Character or player.CharacterAdded:Wait()  -- Espera al personaje si no existe
+                    local rootPart = character:WaitForChild("HumanoidRootPart", 5)  -- Espera a que el "HumanoidRootPart" aparezca (5 segundos máx.)
+
+                    if rootPart then
+                        rootPart.CFrame = CFrame.new(650, 779, 284) -- Las coordenadas a las que te teletransportas
+                    end
+                end)
+
+                if not success then
+                    warn("Error durante el teletransporte: " .. err)  -- Manejo de errores
+                end
+
+                task.wait(2)  -- Esperar 2 segundos antes de la siguiente teletransportación
+            end
+        end
+
+        -- Ejecutar el bucle en un nuevo hilo
+        spawn(teleportLoop)
+
+        -- Reconectar al bucle cuando el jugador reaparezca
+        game.Players.LocalPlayer.CharacterAdded:Connect(function()
+            if getgenv().loopToCoordinates then
+                spawn(teleportLoop)
+            end
+        end)
+    else
+        -- Si el botón de toggle está desactivado
+        getgenv().loopToCoordinates = false -- Detener el bucle
+    end
 end);
 MSection:NewButton("AntiLag", "", function()
 	local Terrain = workspace:FindFirstChildOfClass("Terrain");
@@ -1308,3 +1349,4 @@ end);
 KSection:NewKeybind("Toggle UI", "", Enum.KeyCode.RightShift, function()
 	Library:ToggleUI();
 end)
+
