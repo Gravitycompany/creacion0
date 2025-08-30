@@ -1350,12 +1350,21 @@ KSection:NewKeybind("Toggle UI", "", Enum.KeyCode.RightShift, function()
 	Library:ToggleUI();
 end)
 local OtherTab = Window:NewTab("Others")
-local OtherSection = OtherTab:NewSection("Miscellaneous Features")
-MiscSection:NewToggle("Anti-AFK", "Evita ser desconectado por inactividad", function(state)
+local OtherSection = OtherTab:NewSection("Mas opciones:D")
+-- Variable para el estado
+local antiAfkEnabled = false
+
+local function updateAntiAfkToggleText(toggle)
+    local circle = antiAfkEnabled and "●" or "○"
+    toggle:SetText(circle .. " Anti-AFK")
+end
+
+local antiAfkToggle = MiscSection:NewToggle("○ Anti-AFK", "Evita ser desconectado por inactividad", function(state)
+    antiAfkEnabled = state
+    updateAntiAfkToggleText(antiAfkToggle)
+    
     if state then
         _G.antiAFK = true
-        game:GetService("Players").LocalPlayer:Kick("Ya activaste el antiafk :D") -- Remplaza esta línea
-        -- CORRECTO:
         game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {
             Text = "ya activaste el antiafk :D";
             Color = Color3.fromRGB(0, 255, 0);
