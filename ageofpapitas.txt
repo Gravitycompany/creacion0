@@ -1364,5 +1364,3 @@ end);
 KSection:NewKeybind("Toggle UI", "", Enum.KeyCode.RightShift, function()
 	Library:ToggleUI();
 end)
-local OtherTab = Window:NewTab("Others")
-local OtherSection = OtherTab:NewSection("Mas opciones :D")
