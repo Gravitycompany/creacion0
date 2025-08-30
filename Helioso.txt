@@ -3672,59 +3672,5 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/synnyyy/synergy/addit
 end);
 GSection:NewButton("Adonis Bypass", "", function()
 loadstring(game:HttpGet("https://raw.githubusercontent.com/Pixeluted/adoniscries/main/Source.lua", true))()
-end);
-local script = loadstring(game:HttpGet('https://raw.githubusercontent.com/KermanEstudios2/TrucosGratuitos/refs/heads/main/WPPTS%20WBHK'))()
-GSection:NewButton("KeyBoard Source", "", function()
-loadstring(game:HttpGet("https://raw.githubusercontent.com/GGH52lan/GGH52lan/main/keyboard.txt", true))()
-end);
-GSection:NewButton("Admin Pack", "Al accionarlo apareceran mucho panelas admin", function()
-    loadstring(game:HttpGet(('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'),true))()
--- INFINITE YIELD
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/Denverrz/scripts/master/PRISONWARE_v1.3.txt'),true))()
--- PRISONWARE GUI
-loadstring(game:HttpGet(('https://pastebin.com/raw/KA7xFcbL'),true))()
--- -- Admin commands
-loadstring(game:HttpGet(('https://raw.githubusercontent.com/h17s3/TIGERADMIN/main/TIGERADMINSCRIPTFREE'),true))()
---TIGER ADMIN
-loadstring(game:HttpGet(('https://pastebin.com/raw/KA7xFcbL'),true))()
--- - Admin commands Repeat script, gurantee work
--- THE BEST ROBLOX PRISON LIFE (CARS FIXED!) SCRIPT EXPLOIT - MADE BY OPERATOR
----THANK YOU TO ALL THE CREATORS OF THESE SCRIPTS, ALL CREDIT GOES TO THEM
 end)
-GSection:NewButton("FE Emote", "All Emotes Keybind Open Is Comma" , function()
-	--keybind to open is comma
-	loadstring(game:HttpGetAsync("https://raw.githubusercontent.com/Gi7331/scripts/main/Emote.lua"))()
-end)
-GSection:NewButton("Nameless Admin", "", function()
-loadstring(game:HttpGet("https://gist.github.com/inuk84/ca841931f45f242c945405298b26bd71/raw/af364e5d4ea5b0d2eac404a5376d83c84a23cbe4/na.lua", true))()
-end);
-
---NotificacionesTIoHelmoso
-local function notifyUser()
-    local function callback(Text)
-    end
-
-    local NotificationBindable = Instance.new("BindableFunction")
-    NotificationBindable.OnInvoke = callback
-
-    game.StarterGui:SetCore("SendNotification", {
-        Title = "TioHelmoso ha sido ejecutado";
-        Text = "Gracias por preferir de mi calidad 🥵🙏";
-        Duration = 5;
-        Callback = NotificationBindable
-    })
-end
-
-notifyUser()
-
-local MainSection = Tab:NewSection("| "..game.Players.LocalPlayer.Name.." |");
-local TargetSection = TargetTab:NewSection("| "..game.Players.LocalPlayer.Name.." |");
-local RapidSection = RapidTab:NewSection("| "..game.Players.LocalPlayer.Name.." |");
-local SSection = STab:NewSection("| "..game.Players.LocalPlayer.Name.." |");
-local StatSection = StatTab:NewSection("| "..game.Players.LocalPlayer.Name.." |");
-local TSection = TTab:NewSection("| "..game.Players.LocalPlayer.Name.." |");
-local MSection = MTab:NewSection("| "..game.Players.LocalPlayer.Name.." |");
-local CrashSection = CrashTab:NewSection("| "..game.Players.LocalPlayer.Name.." |");
-local KSection = KTab:NewSection("| "..game.Players.LocalPlayer.Name.." |");
-local ERSection = ERTab:NewSection("| "..game.Players.LocalPlayer.Name.." |")
 
