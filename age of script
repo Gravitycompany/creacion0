@@ -866,7 +866,64 @@ MSection:NewButton("Destroy Safezone & Parts", "", function()
 	game:GetService("Workspace").SafeZones.Barrier:Destroy();
 	game:GetService("Workspace").SafeZones.Barrier:Destroy();
 	game:GetService("Workspace").SafeZones.Barrier:Destroy();
-end);
+end) -- Función para eliminar el punto de reaparición
+local function RemoveSpawnPoint()
+    spawnpoint = false
+    Kavo:Notification({Title = "Spawn Point", Text = "Spawn point removed!", Duration = 3})
+    SendChatMessage("[Spawn Point] Deactivated!", Color3.fromRGB(255, 0, 0))
+    SendNotification("Spawn Point", "Spawn point deactivated!", Color3.fromRGB(255, 0, 0))
+end
+
+-- Evento para teletransportar al jugador al punto guardado al reaparecer
+LocalPlayer.CharacterAdded:Connect(function(character)
+    if spawnpoint and spawnpos then
+        task.wait(spDelay)
+        character:WaitForChild("HumanoidRootPart").CFrame = spawnpos
+        SendChatMessage("[Spawn Point] Teleported to saved location!", Color3.fromRGB(0, 150, 255))
+        SendNotification("Spawn Point", "Teleported to saved spawn point!", Color3.fromRGB(0, 150, 255))
+    end
+end)
+
+-- Botón para establecer el spawn
+TSection:NewButton("Set Spawn Point", "Save current position as spawn point", function()
+    SetSpawnPoint()
+    SendNotification("Spawn Point", "Spawn point activated!", Color3.fromRGB(0, 255, 0))
+    SendChatMessage("[Spawn Point] Activated!", Color3.fromRGB(0, 255, 0))
+end)
+
+-- Botón para eliminar el spawn
+TSection:NewButton("Remove Spawn Point", "Remove saved spawn point", function()
+    RemoveSpawnPoint()
+end)
+
+TSection:NewLabel("FARM PLACE")
+TSection:NewToggle("FARM ZONE #1 [Edificio en construcción]", "", function(state)
+    if state then
+        -- Si el botón de toggle está activado
+        getgenv().loopToCoordinates = true  -- Bandera para controlar el bucle
+
+        local function teleportLoop()
+            -- Bucle para teletransportarse continuamente
+            while getgenv().loopToCoordinates do
+                local success, err = pcall(function()
+                    local player = game.Players.LocalPlayer  -- Referencia del jugador local
+                    local character = player.Character or player.CharacterAdded:Wait()  -- Espera al personaje si no existe
+                    local rootPart = character:WaitForChild("HumanoidRootPart", 5)  -- Espera a que el "HumanoidRootPart" aparezca (5 segundos máx.)
+
+                    if rootPart then
+                        rootPart.CFrame = CFrame.new(650, 779, 284) -- Las coordenadas a las que te teletransportas
+                    end
+                end)
+
+                if not success then
+                    warn("Error durante el teletransporte: " .. err)  -- Manejo de errores
+                end
+
+                task.wait(2)  -- Esperar 2 segundos antes de la siguiente teletransportación
+            end
+        end
+
+;
 MSection:NewButton("AntiLag", "", function()
 	local Terrain = workspace:FindFirstChildOfClass("Terrain");
 	Terrain.WaterWaveSize = 0;
@@ -1315,5 +1372,6 @@ local StatSection = StatTab:NewSection("Made By Sage#8437");
 local TSection = TTab:NewSection("Made By Sage#8437");
 local MSection = MTab:NewSection("Made By Sage#8437");
 local KSection = KTab:NewSection("Made By Sage#8437");
+
 
 
