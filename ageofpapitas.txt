@@ -1,5 +1,5 @@
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))();
-local Window = Library.CreateLib("AgE Of pApiTas", "LinghtTheme");
+local Window = Library.CreateLib("AgE Of pApiTas", "ocean");
 local Tab = Window:NewTab("AutoFarm Menu");
 local MainSection = Tab:NewSection("AutoFarm Menu");
 local TargetTab = Window:NewTab("Player Menu");
@@ -1315,6 +1315,7 @@ local StatSection = StatTab:NewSection("Made By Sage#8437");
 local TSection = TTab:NewSection("Made By Sage#8437");
 local MSection = MTab:NewSection("Made By Sage#8437");
 local KSection = KTab:NewSection("Made By Sage#8437");
+
 
 
 
