@@ -1307,16 +1307,4 @@ KSection:NewKeybind("Release Telekinesis", "", Enum.KeyCode['C'], function()
 end);
 KSection:NewKeybind("Toggle UI", "", Enum.KeyCode.RightShift, function()
 	Library:ToggleUI();
-end);
-local MainSection = Tab:NewSection("Made By Sage#8437");
-local TargetSection = TargetTab:NewSection("Made By Sage#8437");
-local SSection = STab:NewSection("Made By Sage#8437");
-local StatSection = StatTab:NewSection("Made By Sage#8437");
-local TSection = TTab:NewSection("Made By Sage#8437");
-local MSection = MTab:NewSection("Made By Sage#8437");
-local KSection = KTab:NewSection("Made By Sage#8437");
-
-
-
-
-
+end)
