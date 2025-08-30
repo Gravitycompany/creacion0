@@ -866,7 +866,7 @@ MSection:NewButton("Destroy Safezone & Parts", "", function()
 	game:GetService("Workspace").SafeZones.Barrier:Destroy();
 	game:GetService("Workspace").SafeZones.Barrier:Destroy();
 	game:GetService("Workspace").SafeZones.Barrier:Destroy();
-end
+end)
 TSection:NewLabel("FARM PLACE")
 TSection:NewToggle("FARM ZONE #1 [Edificio en construcción]", "", function(state)
     if state then
@@ -1349,4 +1349,5 @@ end);
 KSection:NewKeybind("Toggle UI", "", Enum.KeyCode.RightShift, function()
 	Library:ToggleUI();
 end)
+
 
