@@ -1351,19 +1351,14 @@ KSection:NewKeybind("Toggle UI", "", Enum.KeyCode.RightShift, function()
 end)
 local OtherTab = Window:NewTab("Others")
 local OtherSection = OtherTab:NewSection("Mas opciones:D")
--- Variable para el estado
-local antiAfkEnabled = false
+local antiAfkState = false
 
-local function updateAntiAfkToggleText(toggle)
-    local circle = antiAfkEnabled and "●" or "○"
-    toggle:SetText(circle .. " Anti-AFK")
-end
+-- Crear toggle con texto fijo (sin círculo)
+local antiAfkToggle = MiscSection:NewToggle("Anti-AFK", "Evita ser desconectado por inactividad", function(state)
+    antiAfkState = state
 
-local antiAfkToggle = MiscSection:NewToggle("○ Anti-AFK", "Evita ser desconectado por inactividad", function(state)
-    antiAfkEnabled = state
-    updateAntiAfkToggleText(antiAfkToggle)
-    
-    if state then
+    if antiAfkState then
+        statusLabel.Text = "Status: ● Active"
         _G.antiAFK = true
         game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {
             Text = "ya activaste el antiafk :D";
@@ -1380,6 +1375,10 @@ local antiAfkToggle = MiscSection:NewToggle("○ Anti-AFK", "Evita ser desconect
             end
         end)
     else
+        statusLabel.Text = "Status: ○ Inactive"
         _G.antiAFK = false
     end
 end)
+
+-- Etiqueta al lado para mostrar círculo (o estado)
+local statusLabel = MiscSection:NewLabel("Status: ○ Inactive")
