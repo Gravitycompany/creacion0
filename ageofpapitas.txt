@@ -1412,9 +1412,10 @@ KSection:NewKeybind("Release Telekinesis", "", Enum.KeyCode['C'], function()
 end);
 KSection:NewKeybind("Toggle UI", "", Enum.KeyCode.RightShift, function()
 	Library:ToggleUI();
-end)
+end);
  local OtherTab = Window:NewTab("Others")
 local OtherSection = OtherTab:NewSection("prox-act-2-")
+
 
 
 
