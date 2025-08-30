@@ -301,7 +301,7 @@ MainSection:NewToggle("Autofarm Orbs", "", function(state)
 		end);
 	end
 end);
-MainSection:NewToggle("Laser Civilian Farm", "", function(state)
+MainSection:NewToggle("Laser Civil Farm", "", function(state)
 	if state then
 		getgenv().LaserC = true;
 		coroutine.resume(coroutine.create(function()
@@ -325,7 +325,7 @@ MainSection:NewToggle("Laser Civilian Farm", "", function(state)
 		breakvelocity();
 	end
 end);
-MainSection:NewToggle("Laser Police Farm", "", function(state)
+MainSection:NewToggle("Laser Policia Farm", "", function(state)
 	if state then
 		getgenv().LaserV = true;
 		coroutine.resume(coroutine.create(function()
@@ -349,7 +349,7 @@ MainSection:NewToggle("Laser Police Farm", "", function(state)
 		breakvelocity();
 	end
 end);
-MainSection:NewToggle("Laser Thug Farm", "", function(state)
+MainSection:NewToggle("Laser villanos Farm", "", function(state)
 	if state then
 		getgenv().LaserH = true;
 		coroutine.resume(coroutine.create(function()
@@ -373,7 +373,7 @@ MainSection:NewToggle("Laser Thug Farm", "", function(state)
 		breakvelocity();
 	end
 end);
-MainSection:NewToggle("Civilian Farm", "", function(state)
+MainSection:NewToggle("Civil Farm", "", function(state)
 	if state then
 		CivilianX = player.Character.HumanoidRootPart.Position['X'];
 		CivilianY = player.Character.HumanoidRootPart.Position['Y'];
@@ -399,7 +399,7 @@ MainSection:NewToggle("Civilian Farm", "", function(state)
 		end);
 	end
 end);
-MainSection:NewToggle("Police Farm", "", function(state)
+MainSection:NewToggle("Policia Farm", "", function(state)
 	if state then
 		PoliceX = player.Character.HumanoidRootPart.Position['X'];
 		PoliceY = player.Character.HumanoidRootPart.Position['Y'];
@@ -426,7 +426,7 @@ MainSection:NewToggle("Police Farm", "", function(state)
 		end);
 	end
 end);
-MainSection:NewToggle("Thug Farm", "", function(state)
+MainSection:NewToggle("Villanos Farm", "", function(state)
 	if state then
 		thugX = player.Character.HumanoidRootPart.Position['X'];
 		thugY = player.Character.HumanoidRootPart.Position['Y'];
@@ -987,7 +987,7 @@ TargetSection:NewButton("Refresh Dropdown", "", function()
 		slcplr:Refresh(dropdown);
 	end);
 end);
-TargetSection:NewButton("Goto Player", "", function()
+TargetSection:NewButton("tp loop Player", "", function()
 	spawn(function()
 		local p1 = game.Players.LocalPlayer.Character.HumanoidRootPart;
 		p1.CFrame = game.Players[_G.tplayer].Character.HumanoidRootPart.CFrame;
@@ -1081,7 +1081,7 @@ TargetSection:NewToggle("Kill Player", "", function(state)
 		end);
 	end
 end);
-TargetSection:NewToggle("Loop Goto Player", "", function(state)
+TargetSection:NewToggle("tp loop Player", "", function(state)
 	if state then
 		getgenv().loopgoto = true;
 		local varX = player.Character.HumanoidRootPart.Position['X'];
@@ -1349,5 +1349,28 @@ end);
 KSection:NewKeybind("Toggle UI", "", Enum.KeyCode.RightShift, function()
 	Library:ToggleUI();
 end)
-
-
+local OtherTab = Window:NewTab("Others")
+local OtherSection = OtherTab:NewSection("Miscellaneous Features")
+MiscSection:NewToggle("Anti-AFK", "Evita ser desconectado por inactividad", function(state)
+    if state then
+        _G.antiAFK = true
+        game:GetService("Players").LocalPlayer:Kick("Ya activaste el antiafk :D") -- Remplaza esta línea
+        -- CORRECTO:
+        game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {
+            Text = "ya activaste el antiafk :D";
+            Color = Color3.fromRGB(0, 255, 0);
+            Font = Enum.Font.SourceSansBold;
+            FontSize = Enum.FontSize.Size24;
+        })
+        game:GetService("Players").LocalPlayer.Idled:Connect(function()
+            if _G.antiAFK then
+                local vu = game:GetService("VirtualUser")
+                vu:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+                task.wait(1)
+                vu:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
+            end
+        end)
+    else
+        _G.antiAFK = false
+    end
+end)
