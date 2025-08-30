@@ -1351,34 +1351,31 @@ KSection:NewKeybind("Toggle UI", "", Enum.KeyCode.RightShift, function()
 end)
 local OtherTab = Window:NewTab("Others")
 local OtherSection = OtherTab:NewSection("Mas opciones:D")
-local antiAfkState = false
+local function createAntiAFKToggle(section)
+    local state = false
+    local toggleObj
 
--- Crear toggle con texto fijo (sin círculo)
-local antiAfkToggle = MiscSection:NewToggle("Anti-AFK", "Evita ser desconectado por inactividad", function(state)
-    antiAfkState = state
+    local function createToggle()
+        if toggleObj then
+            -- Si ya existe, remover o ocultar (depende de la librería, algunas no permiten eliminar)
+            -- Aquí asumo que no se puede eliminar, así que solo ignoramos.
+        end
 
-    if antiAfkState then
-        statusLabel.Text = "Status: ● Active"
-        _G.antiAFK = true
-        game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {
-            Text = "ya activaste el antiafk :D";
-            Color = Color3.fromRGB(0, 255, 0);
-            Font = Enum.Font.SourceSansBold;
-            FontSize = Enum.FontSize.Size24;
-        })
-        game:GetService("Players").LocalPlayer.Idled:Connect(function()
-            if _G.antiAFK then
-                local vu = game:GetService("VirtualUser")
-                vu:Button2Down(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
-                task.wait(1)
-                vu:Button2Up(Vector2.new(0,0), workspace.CurrentCamera.CFrame)
-            end
+        local circle = state and "●" or "○"
+        toggleObj = section:NewToggle(circle .. " Anti-AFK", "Evita ser desconectado por inactividad", function(val)
+            state = val
+            -- Actualiza el toggle (no se puede cambiar texto directo, así que recreamos)
+            -- En la mayoría de libs no se puede recrear fácil, así que mejor actualizar etiqueta (solución recomendada)
         end)
-    else
-        statusLabel.Text = "Status: ○ Inactive"
-        _G.antiAFK = false
     end
-end)
 
--- Etiqueta al lado para mostrar círculo (o estado)
-local statusLabel = MiscSection:NewLabel("Status: ○ Inactive")
+    createToggle()
+
+    return {
+        getState = function() return state end,
+        setState = function(val)
+            state = val
+            createToggle()
+        end
+    }
+end)
