@@ -1005,7 +1005,8 @@ function antilag()
         if v:IsA("ForceField") or v:IsA("Sparkles") or v:IsA("Smoke") or v:IsA("Fire") then
             v:Destroy()
         end
-    end);
+    end
+end);
 MSection:NewButton("Ground Crack Lag", "", function(state)
 	for i = 1, 1000 do
 		game:GetService("ReplicatedStorage").Events.GroundCrack:FireServer();
@@ -1414,5 +1415,6 @@ KSection:NewKeybind("Toggle UI", "", Enum.KeyCode.RightShift, function()
 end)
  local OtherTab = Window:NewTab("Others")
 local OtherSection = OtherTab:NewSection("prox-act-2-")
+
 
 
