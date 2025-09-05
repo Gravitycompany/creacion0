@@ -1192,6 +1192,96 @@ MSection:NewButton("Destroy Safezone & Parts", "", function()
 	game:GetService("Workspace").SafeZones.Barrier:Destroy();
 	game:GetService("Workspace").SafeZones.Barrier:Destroy();
 	game:GetService("Workspace").SafeZones.Barrier:Destroy();
+end)
+TSection:NewLabel("ZONAS DE FARM")
+TSection:NewToggle("Primera zona (La construccion)", "", function(state)
+    if state then
+        -- Si el botón de toggle está activado
+        getgenv().loopToCoordinates = true  -- Bandera para controlar el bucle
+
+        local function teleportLoop()
+            -- Bucle para teletransportarse continuamente
+            while getgenv().loopToCoordinates do
+                local success, err = pcall(function()
+                    local player = game.Players.LocalPlayer  -- Referencia del jugador local
+                    local character = player.Character or player.CharacterAdded:Wait()  -- Espera al personaje si no existe
+                    local rootPart = character:WaitForChild("HumanoidRootPart", 5)  -- Espera a que el "HumanoidRootPart" aparezca (5 segundos máx.)
+
+                    if rootPart then
+                        rootPart.CFrame = CFrame.new(650, 779, 284) -- Las coordenadas a las que te teletransportas
+                    end
+                end)
+
+                if not success then
+                    warn("Error durante el teletransporte: " .. err)  -- Manejo de errores
+                end
+
+                task.wait(2)  -- Esperar 2 segundos antes de la siguiente teletransportación
+            end
+        end
+
+        -- Ejecutar el bucle en un nuevo hilo
+        spawn(teleportLoop)
+
+        -- Reconectar al bucle cuando el jugador reaparezca
+        game.Players.LocalPlayer.CharacterAdded:Connect(function()
+            if getgenv().loopToCoordinates then
+                spawn(teleportLoop)
+            end
+        end)
+    else
+        -- Si el botón de toggle está desactivado
+        getgenv().loopToCoordinates = false -- Detener el bucle
+    end
+end)
+TSection:NewToggle("Segunda zona (Base militar)", "", function(state)
+    if state then
+        -- Si el botón de toggle está activado
+        getgenv().loopToCoordinates = true  -- Bandera para controlar el bucle
+
+        local function teleportLoop()
+            -- Bucle para teletransportarse continuamente
+            while getgenv().loopToCoordinates do
+                local success, err = pcall(function()
+                    local player = game.Players.LocalPlayer  -- Referencia del jugador local
+                    local character = player.Character or player.CharacterAdded:Wait()  -- Espera al personaje si no existe
+                    local rootPart = character:WaitForChild("HumanoidRootPart", 5)  -- Espera a que el "HumanoidRootPart" aparezca (5 segundos máx.)
+
+                    if rootPart then
+                        rootPart.CFrame = CFrame.new(259, 99, -4639) -- Las coordenadas actualizadas
+                    end
+                end)
+
+                if not success then
+                    warn("Error durante el teletransporte: " .. err)  -- Manejo de errores
+                end
+
+                task.wait(2)  -- Esperar 2 segundos antes de la siguiente teletransportación
+            end
+        end
+
+        -- Ejecutar el bucle en un nuevo hilo
+        spawn(teleportLoop)
+
+        -- Reconectar al bucle cuando el jugador reaparezca
+        game.Players.LocalPlayer.CharacterAdded:Connect(function()
+            if getgenv().loopToCoordinates then
+                spawn(teleportLoop)
+            end
+        end)
+
+        -- Manejo del caso en que el jugador muere
+        game.Players.LocalPlayer.Character.Humanoid.Died:Connect(function()
+            -- Esperar a que el personaje respawnee
+            game.Players.LocalPlayer.CharacterAdded:Wait()
+            if getgenv().loopToCoordinates then
+                spawn(teleportLoop)
+            end
+        end)
+    else
+        -- Si el botón de toggle está desactivado
+        getgenv().loopToCoordinates = false -- Detener el bucle
+    end
 end);
 MSection:NewButton("Anti-Lag", "", function()
 	local Terrain = workspace:FindFirstChildOfClass("Terrain");
