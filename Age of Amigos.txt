@@ -1819,4 +1819,21 @@ KSection:NewKeybind("Teleport To Middle", "", Enum.KeyCode.V, function()
 	    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(-376, 94, 91);
 	end
 	breakvelocity();
-end)
+end);
+
+--Notificacionen PApas
+local function notifyUser()
+    local function callback(Text)
+    end
+
+    local NotificationBindable = Instance.new("BindableFunction")
+    NotificationBindable.OnInvoke = callback
+
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "TioHelmoso ha sido ejecutado";
+        Text = "Mi script xd";
+        Duration = 5;
+        Callback = NotificationBindable
+    })
+end
+
